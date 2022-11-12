@@ -1,0 +1,164 @@
+basePath: /
+definitions:
+  repo.AvitoBalance:
+    properties:
+      id:
+        type: integer
+      idorder:
+        example: 1
+        type: integer
+      idservice:
+        example: 1
+        type: integer
+      iduser:
+        example: 1
+        type: integer
+      price:
+        example: 10
+        type: number
+      valid:
+        description: Если ошибка пришла с другого сервиса
+        example: true
+        type: boolean
+    type: object
+  repo.Report:
+    properties:
+      idservice:
+        example: 1
+        type: integer
+      monthfinish:
+        example: "12"
+        type: string
+      monthstart:
+        example: "10"
+        type: string
+      yearfinish:
+        example: "2022"
+        type: string
+      yearstart:
+        example: "2022"
+        type: string
+    type: object
+  repo.User:
+    description: User account information with user id and updatemoney
+    properties:
+      balance:
+        type: number
+      id:
+        example: 1
+        type: integer
+      updatemoney:
+        example: 100
+        type: number
+    type: object
+host: 127.0.0.1:8000
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: Микросервис для работы с балансом пользователей
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Тестовое задание на позицию стажёра-бэкендера 2022
+paths:
+  /api/FinishContract:
+    post:
+      consumes:
+      - application/json
+      description: Метод признания выручки – списывает из резерва деньги, добавляет
+        данные в отчет для бухгалтерии. если valid =false, то деньги вернутся пользователю
+      operationId: finish
+      parameters:
+      - description: start
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/repo.AvitoBalance'
+      produces:
+      - application/json
+      responses: {}
+      summary: Закончить услугу
+      tags:
+      - Услуга
+  /api/Report:
+    post:
+      consumes:
+      - application/json
+      description: Бухгалтерия раз в месяц просит предоставить сводный отчет по всем
+        пользователем, с указанием сумм выручки по каждой из предоставленной услуги
+        для расчета и уплаты налогов.
+      operationId: report
+      parameters:
+      - description: start
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/repo.Report'
+      produces:
+      - application/json
+      responses: {}
+      summary: Получить отчет
+      tags:
+      - Бухгалтерия
+  /api/StartContract:
+    post:
+      consumes:
+      - application/json
+      description: Метод резервирования средств с основного баланса на отдельном счете
+      operationId: start
+      parameters:
+      - description: start
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/repo.AvitoBalance'
+      produces:
+      - application/json
+      responses: {}
+      summary: Начать услугу
+      tags:
+      - Услуга
+  /api/balance:
+    post:
+      consumes:
+      - application/json
+      description: Метод начисления средств на баланс.
+      operationId: deposit
+      parameters:
+      - description: send money
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/repo.User'
+      produces:
+      - application/json
+      responses: {}
+      summary: Положить деньги
+      tags:
+      - Пользователь
+  /api/balance/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Метод получения баланса пользователя
+      operationId: balance
+      parameters:
+      - description: check for id
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/repo.User'
+      produces:
+      - application/json
+      responses: {}
+      summary: Получить баланс
+      tags:
+      - Пользователь
+swagger: "2.0"

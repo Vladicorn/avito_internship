@@ -1,0 +1,233 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Микросервис для работы с балансом пользователей",
+        "title": "Тестовое задание на позицию стажёра-бэкендера 2022",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "email": "fiber@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "127.0.0.1:8000",
+    "basePath": "/",
+    "paths": {
+        "/api/FinishContract": {
+            "post": {
+                "description": "Метод признания выручки – списывает из резерва деньги, добавляет данные в отчет для бухгалтерии. если valid =false, то деньги вернутся пользователю",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Услуга"
+                ],
+                "summary": "Закончить услугу",
+                "operationId": "finish",
+                "parameters": [
+                    {
+                        "description": "start",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/repo.AvitoBalance"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/Report": {
+            "post": {
+                "description": "Бухгалтерия раз в месяц просит предоставить сводный отчет по всем пользователем, с указанием сумм выручки по каждой из предоставленной услуги для расчета и уплаты налогов.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Бухгалтерия"
+                ],
+                "summary": "Получить отчет",
+                "operationId": "report",
+                "parameters": [
+                    {
+                        "description": "start",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/repo.Report"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/StartContract": {
+            "post": {
+                "description": "Метод резервирования средств с основного баланса на отдельном счете",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Услуга"
+                ],
+                "summary": "Начать услугу",
+                "operationId": "start",
+                "parameters": [
+                    {
+                        "description": "start",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/repo.AvitoBalance"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/balance": {
+            "post": {
+                "description": "Метод начисления средств на баланс.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Пользователь"
+                ],
+                "summary": "Положить деньги",
+                "operationId": "deposit",
+                "parameters": [
+                    {
+                        "description": "send money",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/repo.User"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/balance/{id}": {
+            "get": {
+                "description": "Метод получения баланса пользователя",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Пользователь"
+                ],
+                "summary": "Получить баланс",
+                "operationId": "balance",
+                "parameters": [
+                    {
+                        "description": "check for id",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/repo.User"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "repo.AvitoBalance": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "idorder": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "idservice": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "iduser": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "price": {
+                    "type": "number",
+                    "example": 10
+                },
+                "valid": {
+                    "description": "Если ошибка пришла с другого сервиса",
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "repo.Report": {
+            "type": "object",
+            "properties": {
+                "idservice": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "monthfinish": {
+                    "type": "string",
+                    "example": "12"
+                },
+                "monthstart": {
+                    "type": "string",
+                    "example": "10"
+                },
+                "yearfinish": {
+                    "type": "string",
+                    "example": "2022"
+                },
+                "yearstart": {
+                    "type": "string",
+                    "example": "2022"
+                }
+            }
+        },
+        "repo.User": {
+            "description": "User account information with user id and updatemoney",
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "updatemoney": {
+                    "type": "number",
+                    "example": 100
+                }
+            }
+        }
+    }
+}
