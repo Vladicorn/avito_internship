@@ -9,21 +9,8 @@ import (
 
 var DB *sql.DB
 
-// ShowAccount godoc
-// @Summary Deposit
-// @Tags deposit
-// @Description положить деньги на аккаунт
-// @ID deposit
-// @Accept json
-// @Produce json
-// @Param input body repo.User true "account info"
-// @Success      200  {integer}  model.Account
-// @Failure      400  {object}  httputil.HTTPError
-// @Failure      404  {object}  httputil.HTTPError
-// @Failure      500  {object}  httputil.HTTPError
-// @Router       /balance [post]
 const (
-	host     = "192.168.0.57"
+	host     = "127.0.0.1"
 	port     = 5432 // Default port
 	user     = "postgres"
 	password = "987123"
