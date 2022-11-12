@@ -23,10 +23,10 @@ var DB *sql.DB
 // @Failure      500  {object}  httputil.HTTPError
 // @Router       /balance [post]
 const (
-	host     = "127.0.0.1"
+	host     = "192.168.0.57"
 	port     = 5432 // Default port
 	user     = "postgres"
-	password = "qwerty"
+	password = "987123"
 	dbname   = "postgres"
 )
 
