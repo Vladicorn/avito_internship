@@ -20,7 +20,7 @@ import (
 // @host           127.0.0.1:8000
 // @BasePath       /
 
-var IP string = "http://127.0.0.1"
+var IP string = "http://127.0.0.1,http://localhost,http://localhost:8000"
 
 func main() {
 
